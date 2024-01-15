@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import com.example.CRUDContact.repository.ContactRepo;
 
 import java.util.List;
+import javax.xml.bind.ValidationException; // Import ValidationException from javax.xml.bind
 
 @RestController
 public class ContactController {
@@ -41,11 +42,15 @@ public class ContactController {
     }
 
     @PostMapping("/addcontact")
-    public ResponseEntity<Contact> addContact(@RequestBody Contact contact) {
+    public ResponseEntity<?> addContact(@RequestBody Contact contact) {
         try {
-            contactValidationService.validate(contact); // Validate before saving
+            // Use regex patterns for validation
+            contactValidationService.validateWithRegex(contact);
+
             Contact newContact = contactRepo.save(contact);
             return ResponseEntity.status(201).body(newContact);
+        } catch (ValidationException e) { // Handle ValidationException
+            return ResponseEntity.badRequest().body(e.getMessage());
         } catch (Exception e) {
             return ResponseEntity.internalServerError().build();
         }
@@ -74,4 +79,3 @@ public class ContactController {
         return ResponseEntity.notFound().build();
     }
 }
-
