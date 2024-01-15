@@ -1,11 +1,11 @@
-package controller;
+package com.example.CRUDContact.controller;
 
-import model.Contact;
+import com.example.CRUDContact.model.Contact;
+import com.example.CRUDContact.service.ContactValidationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import repository.ContactRepo;
-import service.ContactValidationService;
+import com.example.CRUDContact.repository.ContactRepo;
 
 import java.util.List;
 

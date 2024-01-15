@@ -1,11 +1,13 @@
-package service;
+package com.example.CRUDContact.service;
 
+import com.example.CRUDContact.model.Contact;
 import jakarta.xml.bind.ValidationException;
-import model.Contact;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.regex.Pattern;
 
+@Service
 public class ContactValidationService {
 
     private static final Pattern NAME_PATTERN = Pattern.compile(".{2,}");

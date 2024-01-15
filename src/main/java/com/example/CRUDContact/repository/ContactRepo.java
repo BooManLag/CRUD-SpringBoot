@@ -1,6 +1,6 @@
-package repository;
+package com.example.CRUDContact.repository;
 
-import model.Contact;
+import com.example.CRUDContact.model.Contact;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

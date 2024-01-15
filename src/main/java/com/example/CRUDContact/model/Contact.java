@@ -1,4 +1,4 @@
-package model;
+package com.example.CRUDContact.model;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
