@@ -16,44 +16,42 @@ public class ContactValidationService {
 
     public void validate(Contact contact) throws ValidationException {
 
-        if(contact.getFirstName() == null || contact.getFirstName().trim().isEmpty()) {
-            throw new ValidationException("First name is required");
+        if (contact.getFirstName() == null || contact.getFirstName().trim().isEmpty()) {
+            throw new ValidationException("First name is required.");
         }
 
-        if(contact.getLastName() == null || contact.getLastName().trim().isEmpty()) {
-            throw new ValidationException("Last name is required");
+        if (contact.getLastName() == null || contact.getLastName().trim().isEmpty()) {
+            throw new ValidationException("Last name is required.");
         }
 
-        if(!NAME_PATTERN.matcher(contact.getFirstName()).matches()) {
-            throw new ValidationException("Invalid first name");
+        if (!NAME_PATTERN.matcher(contact.getFirstName()).matches()) {
+            throw new ValidationException("First name should be at least 2 characters long.");
         }
 
-        if(!NAME_PATTERN.matcher(contact.getLastName()).matches()) {
-            throw new ValidationException("Invalid last name");
+        if (!NAME_PATTERN.matcher(contact.getLastName()).matches()) {
+            throw new ValidationException("Last name should be at least 2 characters long.");
         }
 
-        if(contact.getAddress() == null || contact.getAddress().trim().isEmpty()) {
-            throw new ValidationException("Address is required");
+        if (contact.getAddress() == null || contact.getAddress().trim().isEmpty()) {
+            throw new ValidationException("Address is required.");
         }
 
-        if(!ADDRESS_PATTERN.matcher(contact.getAddress()).matches()) {
-            throw new ValidationException("Invalid address");
+        if (!ADDRESS_PATTERN.matcher(contact.getAddress()).matches()) {
+            throw new ValidationException("Address should be at least 5 characters long.");
         }
 
-        if(contact.getContactNumber() == null || contact.getContactNumber().trim().isEmpty()) {
-            throw new ValidationException("Phone number is required");
+        if (contact.getContactNumber() == null || contact.getContactNumber().trim().isEmpty()) {
+            throw new ValidationException("Phone number is required.");
         }
 
-        if(!PHONE_PATTERN.matcher(contact.getContactNumber()).matches()) {
-            throw new ValidationException("Invalid phone number");
+        if (!PHONE_PATTERN.matcher(contact.getContactNumber()).matches()) {
+            throw new ValidationException("Phone number should be 11 digits long.");
         }
 
-        if(contact.getCreatedAt() == null) {
+        if (contact.getCreatedAt() == null) {
             contact.setCreatedAt(LocalDateTime.now());
         }
 
         contact.setUpdatedAt(LocalDateTime.now());
     }
-
 }
-
