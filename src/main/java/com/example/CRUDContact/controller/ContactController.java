@@ -19,12 +19,18 @@ public class ContactController {
     private ContactValidationService contactValidationService; // Validation Service
 
     @GetMapping("/contacts")
-    public ResponseEntity<List<Contact>> getAllContacts() {
+    public ResponseEntity<List<String>> getAllContactFullNames() {
         List<Contact> contactList = contactRepo.findAll();
         if (contactList.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
-        return ResponseEntity.ok(contactList);
+
+        // Create a list of full names using the getFullName method
+        List<String> fullNames = contactList.stream()
+                .map(Contact::getFullName)
+                .toList();
+
+        return ResponseEntity.ok(fullNames);
     }
 
     @GetMapping("/contacts/{id}")
