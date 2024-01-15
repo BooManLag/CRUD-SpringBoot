@@ -26,12 +26,17 @@ public class Contact {
 
     private String lastName;
 
+    // Exclude first name and last name from getters
+    @Getter
     private String address;
 
+    @Getter
     private String contactNumber;
 
+    @Getter
     private LocalDateTime createdAt;
 
+    @Getter
     private LocalDateTime updatedAt;
 
     // Calculate the full name
@@ -39,20 +44,4 @@ public class Contact {
         return firstName + " " + lastName;
     }
 
-    // Exclude first name and last name from getters
-    public String getAddress() {
-        return address;
-    }
-
-    public String getContactNumber() {
-        return contactNumber;
-    }
-
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
-
-    public LocalDateTime getUpdatedAt() {
-        return updatedAt;
-    }
 }

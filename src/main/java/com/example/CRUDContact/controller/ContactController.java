@@ -2,13 +2,14 @@ package com.example.CRUDContact.controller;
 
 import com.example.CRUDContact.model.Contact;
 import com.example.CRUDContact.service.ContactValidationService;
+import jakarta.xml.bind.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.example.CRUDContact.repository.ContactRepo;
 
 import java.util.List;
-import javax.xml.bind.ValidationException; // Import ValidationException from javax.xml.bind
+
 
 @RestController
 public class ContactController {
@@ -20,18 +21,13 @@ public class ContactController {
     private ContactValidationService contactValidationService; // Validation Service
 
     @GetMapping("/contacts")
-    public ResponseEntity<List<String>> getAllContactFullNames() {
+    public ResponseEntity<List<Contact>> getAllContacts() {
         List<Contact> contactList = contactRepo.findAll();
         if (contactList.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
 
-        // Create a list of full names using the getFullName method
-        List<String> fullNames = contactList.stream()
-                .map(Contact::getFullName)
-                .toList();
-
-        return ResponseEntity.ok(fullNames);
+        return ResponseEntity.ok(contactList);
     }
 
     @GetMapping("/contacts/{id}")
@@ -45,7 +41,7 @@ public class ContactController {
     public ResponseEntity<?> addContact(@RequestBody Contact contact) {
         try {
             // Use regex patterns for validation
-            contactValidationService.validateWithRegex(contact);
+            contactValidationService.validate(contact);
 
             Contact newContact = contactRepo.save(contact);
             return ResponseEntity.status(201).body(newContact);
