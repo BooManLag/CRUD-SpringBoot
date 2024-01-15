@@ -2,14 +2,12 @@ package controller;
 
 import model.Contact;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import repository.ContactRepo;
+import service.ContactValidationService;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 public class ContactController {
@@ -17,80 +15,56 @@ public class ContactController {
     @Autowired
     private ContactRepo contactRepo;
 
-    // Get all contacts
+    @Autowired
+    private ContactValidationService contactValidationService; // Validation Service
+
     @GetMapping("/contacts")
-    public ResponseEntity<List<Contact>> getAllContacts(){
-        try {
-            List<Contact> contactList = contactRepo.findAll();
-
-            if(contactList.isEmpty()) {
-                return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-            }
-
-            return new ResponseEntity<>(contactList, HttpStatus.OK);
-
-        } catch(Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+    public ResponseEntity<List<Contact>> getAllContacts() {
+        List<Contact> contactList = contactRepo.findAll();
+        if (contactList.isEmpty()) {
+            return ResponseEntity.noContent().build();
         }
+        return ResponseEntity.ok(contactList);
     }
 
-    // Get single contact
     @GetMapping("/contacts/{id}")
-    public ResponseEntity<Contact> getContactById(@PathVariable Long id){
-        try{
-            Contact contact = contactRepo.findById(id).get();
-            return new ResponseEntity<>(contact, HttpStatus.OK);
-        } catch(Exception e) {
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<Contact> getContactById(@PathVariable Long id) {
+        return contactRepo.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
-    // Add new contact
     @PostMapping("/addcontact")
-    public ResponseEntity<Contact> addContact(@RequestBody Contact contact){
-        try{
+    public ResponseEntity<Contact> addContact(@RequestBody Contact contact) {
+        try {
+            contactValidationService.validate(contact); // Validate before saving
             Contact newContact = contactRepo.save(contact);
-            return new ResponseEntity<>(newContact, HttpStatus.CREATED);
-        } catch(Exception e){
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.status(201).body(newContact);
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
         }
     }
 
-    // Update existing contact
     @PatchMapping("/contacts/{id}")
     public ResponseEntity<Contact> patchContact(@PathVariable Long id, @RequestBody Contact contact) {
-
-        try {
-            Contact existingContact = contactRepo.findById(id).get();
-
-            Optional.ofNullable(contact.getFirstName())
-                    .ifPresent(existingContact::setFirstName);
-
-            Optional.ofNullable(contact.getLastName())
-                    .ifPresent(existingContact::setLastName);
-
-            Optional.ofNullable(contact.getAddress())
-                    .ifPresent(existingContact::setAddress);
-
-            Optional.ofNullable(contact.getContactNumber())
-                    .ifPresent(existingContact::setContactNumber);
-
-            Contact updatedContact = contactRepo.save(existingContact);
-            return new ResponseEntity<>(updatedContact, HttpStatus.OK);
-
-        } catch (Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
-        }
+        return contactRepo.findById(id)
+                .map(existingContact -> {
+                    if (contact.getFirstName() != null) existingContact.setFirstName(contact.getFirstName());
+                    if (contact.getLastName() != null) existingContact.setLastName(contact.getLastName());
+                    if (contact.getAddress() != null) existingContact.setAddress(contact.getAddress());
+                    if (contact.getContactNumber() != null) existingContact.setContactNumber(contact.getContactNumber());
+                    Contact updatedContact = contactRepo.save(existingContact);
+                    return ResponseEntity.ok(updatedContact);
+                })
+                .orElse(ResponseEntity.notFound().build());
     }
 
-    // Delete contact
     @DeleteMapping("/contacts/{id}")
-    public ResponseEntity<HttpStatus> deleteContact(@PathVariable Long id){
-        try{
+    public ResponseEntity<HttpStatus> deleteContact(@PathVariable Long id) {
+        if (contactRepo.existsById(id)) {
             contactRepo.deleteById(id);
-            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-        } catch(Exception e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return ResponseEntity.noContent().build();
         }
+        return ResponseEntity.notFound().build();
     }
 }
