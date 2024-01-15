@@ -60,7 +60,7 @@ public class ContactController {
     }
 
     @DeleteMapping("/contacts/{id}")
-    public ResponseEntity<HttpStatus> deleteContact(@PathVariable Long id) {
+    public ResponseEntity<Object> deleteContact(@PathVariable Long id) {
         if (contactRepo.existsById(id)) {
             contactRepo.deleteById(id);
             return ResponseEntity.noContent().build();
