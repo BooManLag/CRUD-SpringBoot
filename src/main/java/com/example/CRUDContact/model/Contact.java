@@ -1,5 +1,6 @@
 package com.example.CRUDContact.model;
 
+import com.example.CRUDContact.dto.ContactInfoDTO;
 import lombok.*;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -34,8 +35,15 @@ public class Contact {
 
     private LocalDateTime updatedAt;
 
-    // Method to calculate the full name
-    public String getFullName() {
-        return firstName + " " + lastName;
+    // Method to convert Contact entity to ContactInfoDTO
+    public ContactInfoDTO toContactInfoDTO() {
+        ContactInfoDTO dto = new ContactInfoDTO();
+        dto.setId(id);
+        dto.setFullName(firstName + " " + lastName);
+        dto.setAddress(address);
+        dto.setContactNumber(contactNumber);
+        dto.setCreatedAt(createdAt);
+        dto.setUpdatedAt(updatedAt);
+        return dto;
     }
 }
