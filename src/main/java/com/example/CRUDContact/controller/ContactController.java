@@ -4,12 +4,12 @@ import com.example.CRUDContact.model.Contact;
 import com.example.CRUDContact.service.ContactValidationService;
 import jakarta.xml.bind.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import com.example.CRUDContact.repository.ContactRepo;
 
 import java.util.List;
-
 
 @RestController
 public class ContactController {
@@ -21,8 +21,14 @@ public class ContactController {
     private ContactValidationService contactValidationService; // Validation Service
 
     @GetMapping("/contacts")
-    public ResponseEntity<List<Contact>> getAllContacts() {
-        List<Contact> contactList = contactRepo.findAll();
+    public ResponseEntity<List<Contact>> getAllContacts(
+        @RequestParam(name = "sortField", defaultValue = "id") String sortField,
+        @RequestParam(name = "sortDirection", defaultValue = "desc") String sortDirection
+    ) {
+        Sort.Direction direction = sortDirection.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
+        Sort sort = Sort.by(direction, sortField);
+
+        List<Contact> contactList = contactRepo.findAll(sort);
         if (contactList.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
