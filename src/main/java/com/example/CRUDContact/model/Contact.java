@@ -1,11 +1,11 @@
 package com.example.CRUDContact.model;
+
+import lombok.*;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
-
-import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -34,4 +34,8 @@ public class Contact {
 
     private LocalDateTime updatedAt;
 
+    // Method to calculate the full name
+    public String getFullName() {
+        return firstName + " " + lastName;
+    }
 }
