@@ -6,6 +6,8 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
 
@@ -34,9 +36,11 @@ public class Contact {
     private String contactNumber;
 
     @Getter
+    @CreationTimestamp
     private LocalDateTime createdAt;
 
     @Getter
+    @UpdateTimestamp
     private LocalDateTime updatedAt;
 
     // Calculate the full name
