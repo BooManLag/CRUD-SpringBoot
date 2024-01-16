@@ -4,6 +4,7 @@ import com.example.CRUDContact.model.Contact;
 import com.example.CRUDContact.service.ContactValidationService;
 import jakarta.xml.bind.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

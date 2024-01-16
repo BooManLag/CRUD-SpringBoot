@@ -40,7 +40,7 @@ public class Contact {
     private LocalDateTime updatedAt;
 
     // Calculate the full name
-    public String getFullName() {
+    private String getFullName() {
         return firstName + " " + lastName;
     }
 

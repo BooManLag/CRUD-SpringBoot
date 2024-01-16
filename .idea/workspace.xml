@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="db3f797e-9846-4e42-8cbc-bd943abe5f47" name="Changes" comment="Added DTO">
+    <list default="true" id="db3f797e-9846-4e42-8cbc-bd943abe5f47" name="Changes" comment="Fully Working without sorting">
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/CRUDContact/model/ContactDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/CRUDContact/controller/ContactController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/CRUDContact/controller/ContactController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/CRUDContact/dto/ContactInfoDTO.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/CRUDContact/model/Contact.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/CRUDContact/model/Contact.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -109,7 +111,15 @@
       <option name="project" value="LOCAL" />
       <updated>1705329427594</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Fully Working without sorting">
+      <option name="closed" value="true" />
+      <created>1705331243979</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1705331243979</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -117,6 +127,7 @@
     <MESSAGE value="Edited Files" />
     <MESSAGE value="Moved and edited" />
     <MESSAGE value="Added DTO" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added DTO" />
+    <MESSAGE value="Fully Working without sorting" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fully Working without sorting" />
   </component>
 </project>
