@@ -4,12 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="db3f797e-9846-4e42-8cbc-bd943abe5f47" name="Changes" comment="Fully Working without DTO">
+    <list default="true" id="db3f797e-9846-4e42-8cbc-bd943abe5f47" name="Changes" comment="Fully Working with DTO">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/CRUDContact/controller/ContactController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/CRUDContact/controller/ContactController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/CRUDContact/model/Contact.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/CRUDContact/model/Contact.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/CRUDContact/model/ContactDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/CRUDContact/model/ContactDTO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/CRUDContact/service/ContactService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/CRUDContact/service/ContactService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/CRUDContact/service/ContactValidationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/CRUDContact/service/ContactValidationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -127,7 +128,15 @@
       <option name="project" value="LOCAL" />
       <updated>1705387635303</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="Fully Working with DTO">
+      <option name="closed" value="true" />
+      <created>1705396575571</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1705396575571</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -137,6 +146,7 @@
     <MESSAGE value="Added DTO" />
     <MESSAGE value="Fully Working without sorting" />
     <MESSAGE value="Fully Working without DTO" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fully Working without DTO" />
+    <MESSAGE value="Fully Working with DTO" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fully Working with DTO" />
   </component>
 </project>

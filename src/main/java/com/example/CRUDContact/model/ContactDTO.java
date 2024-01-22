@@ -18,5 +18,4 @@ public class ContactDTO {
     private LocalDateTime updatedAt;
     private String fullName; // Include the full name field
 
-    // No business logic in DTOs, only storage and accessors
 }

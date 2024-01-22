@@ -66,5 +66,4 @@ public class ContactController {
         return ResponseEntity.noContent().build();
     }
 
-    // Other controller methods...
 }
