@@ -1,5 +1,4 @@
 package com.example.CRUDContact.controller;
-
 import com.example.CRUDContact.model.ContactDTO;
 import com.example.CRUDContact.service.ContactService;
 import com.example.CRUDContact.service.ContactValidationService;
@@ -27,7 +26,8 @@ public class ContactController {
     @GetMapping
     public ResponseEntity<List<ContactDTO>> getAllContacts(
             @RequestParam(name = "sortField", defaultValue = "id") String sortField,
-            @RequestParam(name = "sortDirection", defaultValue = "asc") String sortDirection) {
+            @RequestParam(name = "sortDirection", defaultValue = "asc") String sortDirection)  //try enum this for the sort direction
+    {
         Sort.Direction direction = sortDirection.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
         Sort sort = Sort.by(direction, sortField);
         List<ContactDTO> contactDTOs = contactService.findAll(sort);

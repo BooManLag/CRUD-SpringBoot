@@ -15,10 +15,12 @@ public class ContactValidationService {
     private static final Pattern ADDRESS_PATTERN = Pattern.compile(".{5,}");
     private static final Pattern PHONE_PATTERN = Pattern.compile("\\d{11}");
 
+    //persistence validation
+    //you can put business rules built in here
 
     public void validateDTO(ContactDTO contactDTO) throws ValidationException {
         if (contactDTO.getFirstName() == null || contactDTO.getFirstName().trim().isEmpty()) {
-            throw new ValidationException("First name is required.");
+            throw new ValidationException("First name is required."); //put error messages DA LEGIT ONE
         }
 
         if (contactDTO.getLastName() == null || contactDTO.getLastName().trim().isEmpty()) {
