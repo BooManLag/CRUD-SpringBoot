@@ -42,6 +42,8 @@ public class ContactService {
     public ContactDTO convertToDTO(Contact contact) {
         ContactDTO dto = new ContactDTO();
         dto.setId(contact.getId());
+        dto.setFirstName(contact.getFirstName());
+        dto.setLastName(contact.getLastName());
         dto.setAddress(contact.getAddress());
         dto.setContactNumber(contact.getContactNumber());
         dto.setCreatedAt(contact.getCreatedAt());

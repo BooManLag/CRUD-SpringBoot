@@ -4,11 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="db3f797e-9846-4e42-8cbc-bd943abe5f47" name="Changes" comment="Fully Working with DTO but need to update">
+    <list default="true" id="db3f797e-9846-4e42-8cbc-bd943abe5f47" name="Changes" comment="Updated">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/CRUDContact/CrudContactApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/CRUDContact/CrudContactApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/CRUDContact/controller/ContactController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/CRUDContact/controller/ContactController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/CRUDContact/model/ContactDTO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/CRUDContact/model/ContactDTO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/example/CRUDContact/service/ContactService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/CRUDContact/service/ContactService.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/example/CRUDContact/service/ContactValidationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/example/CRUDContact/service/ContactValidationService.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -143,7 +142,15 @@
       <option name="project" value="LOCAL" />
       <updated>1705900345680</updated>
     </task>
-    <option name="localTasksCounter" value="9" />
+    <task id="LOCAL-00009" summary="Updated">
+      <option name="closed" value="true" />
+      <created>1706065463469</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1706065463469</updated>
+    </task>
+    <option name="localTasksCounter" value="10" />
     <servers />
   </component>
   <component name="VcsManagerConfiguration">
@@ -155,6 +162,7 @@
     <MESSAGE value="Fully Working without DTO" />
     <MESSAGE value="Fully Working with DTO" />
     <MESSAGE value="Fully Working with DTO but need to update" />
-    <option name="LAST_COMMIT_MESSAGE" value="Fully Working with DTO but need to update" />
+    <MESSAGE value="Updated" />
+    <option name="LAST_COMMIT_MESSAGE" value="Updated" />
   </component>
 </project>

@@ -1,69 +1,84 @@
 package com.example.CRUDContact.controller;
-import com.example.CRUDContact.model.ContactDTO;
-import com.example.CRUDContact.service.ContactService;
+
+import com.example.CRUDContact.model.Contact;
 import com.example.CRUDContact.service.ContactValidationService;
 import jakarta.xml.bind.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import com.example.CRUDContact.repository.ContactRepo;
 
 import java.util.List;
 
 @RestController
-@RequestMapping("/contacts")
 public class ContactController {
 
-    private final ContactService contactService;
-    private final ContactValidationService contactValidationService;
+    @Autowired
+    private ContactRepo contactRepo;
 
     @Autowired
-    public ContactController(ContactService contactService, ContactValidationService contactValidationService) {
-        this.contactService = contactService;
-        this.contactValidationService = contactValidationService;
-    }
+    private ContactValidationService contactValidationService; // Validation Service
 
-    @GetMapping
-    public ResponseEntity<List<ContactDTO>> getAllContacts(
+    @GetMapping("/contacts")
+    public ResponseEntity<List<Contact>> getAllContacts(
             @RequestParam(name = "sortField", defaultValue = "id") String sortField,
-            @RequestParam(name = "sortDirection", defaultValue = "asc") String sortDirection)  //try enum this for the sort direction
-    {
+            @RequestParam(name = "sortDirection", defaultValue = "desc") String sortDirection
+    ) {
         Sort.Direction direction = sortDirection.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
         Sort sort = Sort.by(direction, sortField);
-        List<ContactDTO> contactDTOs = contactService.findAll(sort);
-        return contactDTOs.isEmpty() ? ResponseEntity.noContent().build() : ResponseEntity.ok(contactDTOs);
+
+        List<Contact> contactList = contactRepo.findAll(sort);
+        if (contactList.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+
+        return ResponseEntity.ok(contactList);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ContactDTO> getContactById(@PathVariable Long id) {
-        ContactDTO contactDTO = contactService.findById(id);
-        return contactDTO != null ? ResponseEntity.ok(contactDTO) : ResponseEntity.notFound().build();
+    @GetMapping("/contacts/{id}")
+    public ResponseEntity<Contact> getContactById(@PathVariable Long id) {
+        return contactRepo.findById(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
-    @PostMapping("/addcontact")
-    public ResponseEntity<?> addContact(@RequestBody ContactDTO contactDTO) {
+    @PostMapping("/add")
+    public ResponseEntity<?> addContact(@RequestBody Contact contact) {
         try {
-            contactValidationService.validateDTO(contactDTO); // This method should be created in your validation service
-            ContactDTO newContactDTO = contactService.save(contactDTO);
-            return ResponseEntity.status(201).body(newContactDTO);
-        } catch (ValidationException e) {
+            // Use regex patterns for validation
+            contactValidationService.validate(contact);
+
+            Contact newContact = contactRepo.save(contact);
+            return ResponseEntity.status(201).body(newContact);
+        } catch (ValidationException e) { // Handle ValidationException
             return ResponseEntity.badRequest().body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.internalServerError().build();
         }
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<?> updateContact(@PathVariable Long id, @RequestBody ContactDTO contactDTO) {
-        ContactDTO updatedContactDTO = contactService.updateContact(id, contactDTO);
-        if (updatedContactDTO == null) {
-            return ResponseEntity.notFound().build();
+    @PatchMapping("/contacts/{id}")
+    public ResponseEntity<Contact> patchContact(@PathVariable Long id, @RequestBody Contact contact) {
+        return contactRepo.findById(id)
+                .map(existingContact -> {
+                    if (contact.getFirstName() != null) existingContact.setFirstName(contact.getFirstName());
+                    if (contact.getLastName() != null) existingContact.setLastName(contact.getLastName());
+                    if (contact.getAddress() != null) existingContact.setAddress(contact.getAddress());
+                    if (contact.getContactNumber() != null) existingContact.setContactNumber(contact.getContactNumber());
+                    Contact updatedContact = contactRepo.save(existingContact);
+                    return ResponseEntity.ok(updatedContact);
+                })
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+    @DeleteMapping("/contacts/{id}")
+    public ResponseEntity<Object> deleteContact(@PathVariable Long id) {
+        if (contactRepo.existsById(id)) {
+            contactRepo.deleteById(id);
+            return ResponseEntity.noContent().build();
         }
-        return ResponseEntity.ok(updatedContactDTO);
+        return ResponseEntity.notFound().build();
     }
-
-    @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteContact(@PathVariable Long id) {
-        contactService.deleteById(id);
-        return ResponseEntity.noContent().build();
-    }
-
 }
