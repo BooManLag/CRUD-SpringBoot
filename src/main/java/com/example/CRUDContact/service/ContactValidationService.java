@@ -1,6 +1,6 @@
 package com.example.CRUDContact.service;
 
-import com.example.CRUDContact.model.Contact;
+import com.example.CRUDContact.model.ContactDTO;
 import jakarta.xml.bind.ValidationException;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +14,7 @@ public class ContactValidationService {
     private static final Pattern ADDRESS_PATTERN = Pattern.compile(".{5,}");
     private static final Pattern PHONE_PATTERN = Pattern.compile("\\d{11}");
 
-    public void validate(Contact contact) throws ValidationException {
+    public void validate(ContactDTO contact) throws ValidationException {
 
         if (contact.getFirstName() == null || contact.getFirstName().trim().isEmpty()) {
             throw new ValidationException("First name is required.");

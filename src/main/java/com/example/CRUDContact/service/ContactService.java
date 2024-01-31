@@ -22,7 +22,7 @@ public class ContactService {
     }
 
     public List<ContactDTO> findAll(Sort sort) {
-        return contactRepository.findAll().stream().map(this::convertToDTO).collect(Collectors.toList());
+        return contactRepository.findAll(sort).stream().map(this::convertToDTO).collect(Collectors.toList());
     }
 
     public ContactDTO findById(Long id) {

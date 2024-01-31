@@ -1,35 +1,35 @@
 package com.example.CRUDContact.controller;
 
-import com.example.CRUDContact.model.Contact;
+import com.example.CRUDContact.model.ContactDTO;
+import com.example.CRUDContact.service.ContactService;
 import com.example.CRUDContact.service.ContactValidationService;
 import jakarta.xml.bind.ValidationException;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import com.example.CRUDContact.repository.ContactRepo;
 
 import java.util.List;
 
 @RestController
+@CrossOrigin
 public class ContactController {
 
     @Autowired
-    private ContactRepo contactRepo;
+    private ContactService contactService;
 
     @Autowired
     private ContactValidationService contactValidationService; // Validation Service
 
     @GetMapping("/contacts")
-    public ResponseEntity<List<Contact>> getAllContacts(
+    public ResponseEntity<List<ContactDTO>> getAllContacts(
             @RequestParam(name = "sortField", defaultValue = "id") String sortField,
             @RequestParam(name = "sortDirection", defaultValue = "desc") String sortDirection
     ) {
         Sort.Direction direction = sortDirection.equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
         Sort sort = Sort.by(direction, sortField);
 
-        List<Contact> contactList = contactRepo.findAll(sort);
+        List<ContactDTO> contactList = contactService.findAll(sort);
         if (contactList.isEmpty()) {
             return ResponseEntity.noContent().build();
         }
@@ -38,19 +38,21 @@ public class ContactController {
     }
 
     @GetMapping("/contacts/{id}")
-    public ResponseEntity<Contact> getContactById(@PathVariable Long id) {
-        return contactRepo.findById(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<ContactDTO> getContactById(@PathVariable Long id) {
+        ContactDTO contact = contactService.findById(id);
+        if (contact == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(contact);
     }
 
     @PostMapping("/add")
-    public ResponseEntity<?> addContact(@RequestBody Contact contact) {
+    public ResponseEntity<?> addContact(@RequestBody ContactDTO contactDTO) {
         try {
             // Use regex patterns for validation
-            contactValidationService.validate(contact);
+            contactValidationService.validate(contactDTO);
 
-            Contact newContact = contactRepo.save(contact);
+            ContactDTO newContact = contactService.save(contactDTO);
             return ResponseEntity.status(201).body(newContact);
         } catch (ValidationException e) { // Handle ValidationException
             return ResponseEntity.badRequest().body(e.getMessage());
@@ -60,25 +62,20 @@ public class ContactController {
     }
 
     @PatchMapping("/contacts/{id}")
-    public ResponseEntity<Contact> patchContact(@PathVariable Long id, @RequestBody Contact contact) {
-        return contactRepo.findById(id)
-                .map(existingContact -> {
-                    if (contact.getFirstName() != null) existingContact.setFirstName(contact.getFirstName());
-                    if (contact.getLastName() != null) existingContact.setLastName(contact.getLastName());
-                    if (contact.getAddress() != null) existingContact.setAddress(contact.getAddress());
-                    if (contact.getContactNumber() != null) existingContact.setContactNumber(contact.getContactNumber());
-                    Contact updatedContact = contactRepo.save(existingContact);
-                    return ResponseEntity.ok(updatedContact);
-                })
-                .orElse(ResponseEntity.notFound().build());
+    public ResponseEntity<ContactDTO> patchContact(@PathVariable Long id, @RequestBody ContactDTO contactDTO) {
+        ContactDTO updatedContact = contactService.updateContact(id, contactDTO);
+        if (updatedContact == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(updatedContact);
     }
 
     @DeleteMapping("/contacts/{id}")
     public ResponseEntity<Object> deleteContact(@PathVariable Long id) {
-        if (contactRepo.existsById(id)) {
-            contactRepo.deleteById(id);
-            return ResponseEntity.noContent().build();
+        if (contactService.findById(id) == null) {
+            return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.notFound().build();
+        contactService.deleteById(id);
+        return ResponseEntity.noContent().build();
     }
 }
